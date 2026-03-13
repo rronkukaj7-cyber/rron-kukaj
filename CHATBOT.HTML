@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat i Thjeshtë</title>
+
+  <!-- Shtojmë stilin këtu -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      width: 400px;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 0;
+      color: #333;
+    }
+
+    #chat {
+      height: 350px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      background: #f9f9f9;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      max-width: 75%;
+      margin: 6px 0;
+      padding: 10px 14px;
+      border-radius: 15px;
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    .ti {
+      background: #0084ff;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background: #e5e5ea;
+      color: black;
+      align-self: flex-start;
+    }
+
+    #input {
+      width: 70%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 25%;
+      padding: 10px;
+      font-size: 14px;
+      background-color: #0084ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #006fd6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Chat me Botin</h2>
+
+    <div id="chat"></div>
+
+    <input id="input" type="text" placeholder="Shkruaj këtu..." />
+    <button onclick="dergo()">Dërgo</button>
+  </div>
+    <script>
+        function dergo() {
+        const input = document.getElementById('input');
+        const chat = document.getElementById('chat');
+        const message = input.value.trim();
+    
+        if (message === '') return;
+    
+        // Shto mesazhin e përdoruesit në chat
+        const userMessage = document.createElement('div');
+        userMessage.classList.add('message', 'ti');
+        userMessage.textContent = message;
+        chat.appendChild(userMessage);
+        if (message.toLowerCase() === 'kush je ti?') {
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('message', 'bot');
+                botMessage.textContent = 'Unë jam një chatbot i thjeshtë i krijuar për të ndihmuar me pyetje të ndryshme.';
+                chat.appendChild(botMessage);
+                chat.scrollTop = chat.scrollHeight; // Scroll në fund të chatit
+
+            }, 1000);
+        } else if (message.toLowerCase() === 'çfarë bën ti?') {
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('message', 'bot');
+                botMessage.textContent = 'Unë mund të përgjigjem në pyetje të ndryshme, të ofroj informacion dhe të ndihmoj me detyra të thjeshta.';
+                chat.appendChild(botMessage);
+                chat.scrollTop = chat.scrollHeight; // Scroll në fund të chatit
+
+            }, 1000);
+        } else if (message.toLowerCase() === 'çfarë mund të bëj unë për ty?') {
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('message', 'bot');
+                botMessage.textContent = 'Mund të më bësh pyetje, të kërkosh informacion ose thjesht të bisedosh me mua!';
+                chat.appendChild(botMessage);
+                chat.scrollTop = chat.scrollHeight; // Scroll në fund të chatit
+
+            }, 1000);
+        } else if (message.toLowerCase() === 'çfarë mund të bëj ti për mua?') {
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('message', 'bot');
+                botMessage.textContent = 'Unë mund të të ndihmoj me përgjigje në pyetje, të ofroj informacion dhe të bëj biseda interesante!';
+                chat.appendChild(botMessage);
+                chat.scrollTop = chat.scrollHeight; // Scroll në fund të chatit
+
+            }, 1000);
+        } else {
+
+        }
+        // Pas dërgimit, pastro inputin
+        input.value = '';
+        // Scroll në fund të chatit
+        chat.scrollTop = chat.scrollHeight;
+    }
+    </script>
+</body>
+</html>
