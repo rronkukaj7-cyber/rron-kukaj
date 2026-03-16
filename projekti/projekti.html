@@ -78,5 +78,158 @@
             </div>
         </section>
     </main>
+
+    <!-- AI Assistant Widget Styles & Script -->
+    <style>
+        #aiChatWidget {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            height: 450px;
+            z-index: 2000;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            font-family: sans-serif;
+        }
+        .ai-header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 10px 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+        .ai-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .ai-msg { padding: 8px 12px; border-radius: 5px; max-width: 80%; word-wrap: break-word; font-size: 0.9rem; }
+        .ai-msg-bot { align-self: flex-start; background-color: white; border: 1px solid #dee2e6; color: #333; }
+        .ai-msg-user { align-self: flex-end; background-color: #0d6efd; color: white; }
+        .ai-footer { padding: 10px; background-color: white; border-top: 1px solid #dee2e6; display: flex; gap: 5px; }
+        #aiChatInput { flex: 1; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; }
+        #aiSendBtn { padding: 8px 15px; background-color: #0d6efd; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        #aiToggleBtn {
+            position: fixed; bottom: 20px; left: 20px; width: 60px; height: 60px;
+            border-radius: 50%; background-color: #0d6efd; color: white; border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1999; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+    </style>
+
+    <div id="aiChatWidget">
+        <div class="ai-header">
+            <span>AI Assistant</span>
+            <button onclick="toggleAiChat()" style="background:none; border:none; color:white; font-size:1.2rem; cursor:pointer;">&times;</button>
+        </div>
+        <div class="ai-body" id="aiChatBody">
+            <div class="ai-msg ai-msg-bot">Hello! I'm the North Thread AI assistant. Ask me about shipping, returns, or our products!</div>
+        </div>
+        <div class="ai-footer">
+            <input type="text" id="aiChatInput" placeholder="Ask something...">
+            <button id="aiSendBtn" onclick="sendAiMessage()">Send</button>
+        </div>
+    </div>
+
+    <button id="aiToggleBtn" onclick="toggleAiChat()" aria-label="Open AI Chat">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5ZM3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.58 26.58 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.933.933 0 0 1-.765.935c-.845.147-2.34.346-4.235.346-1.895 0-3.39-.2-4.235-.346A.933.933 0 0 1 3 9.219V8.062Zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a24.767 24.767 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25.286 25.286 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.958-1.935a.25.25 0 0 0-.165-.14ZM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
+    </button>
+
+    <script>
+        function toggleAiChat() {
+            const widget = document.getElementById('aiChatWidget');
+            const btn = document.getElementById('aiToggleBtn');
+            if (widget.style.display === 'flex') {
+                widget.style.display = 'none';
+                btn.style.display = 'flex';
+            } else {
+                widget.style.display = 'flex';
+                btn.style.display = 'none';
+                setTimeout(() => document.getElementById('aiChatInput').focus(), 100);
+            }
+        }
+
+        function getAiResponse(userInput) {
+            const lowerInput = userInput.toLowerCase();
+
+            if (lowerInput.includes('shipping')) {
+                if (lowerInput.includes('free')) {
+                    return 'We offer free shipping on all orders over $80!';
+                }
+                return 'Standard shipping takes 2-4 business days. Express shipping (1-2 days) is also available. You can find more details on our <a href="payment.html">Payment</a> page.';
+            }
+            if (lowerInput.includes('return') || lowerInput.includes('refund')) {
+                return 'We have a 14-day return policy for unworn items with original tags. Refunds are processed in 3-7 business days after approval. See our <a href="payment.html">Payment</a> page for the full policy.';
+            }
+            if (lowerInput.includes('payment') || lowerInput.includes('pay') || lowerInput.includes('visa') || lowerInput.includes('mastercard') || lowerInput.includes('paypal')) {
+                return 'We accept Visa, MasterCard, Apple Pay, Google Pay, and PayPal. You can find all options on the <a href="payment.html">Payment</a> page.';
+            }
+            if (lowerInput.includes('owner')) {
+                return 'The owner is Rron Kukaj. His Phone number is 049968711. He is from Kosovo and he is proud of his country.';
+            }
+            if (lowerInput.includes('contact') || lowerInput.includes('phone') || lowerInput.includes('email') || lowerInput.includes('hours')) {
+                return 'You can reach us at support@norththread.com or call +1 (555) 230-9912. Our hours are Mon-Sat, 9:00 AM - 6:00 PM. Check the <a href="contact.html">Contact</a> page for more info.';
+            }
+            if (lowerInput.includes('product') || lowerInput.includes('shop') || lowerInput.includes('buy')) {
+                return 'You can browse all our products on the <a href="shop.html">Shop</a> page. We have hoodies, jackets, tees, and more. Do you have a specific item in mind?';
+            }
+            if (lowerInput.includes('hoodie')) {
+                return 'Our Classic Hoodie is a best-seller! It costs $54.00 and is made from a heavy cotton blend. You can order it from the <a href="shop.html">Shop</a> page.';
+            }
+            if (lowerInput.includes('jacket')) {
+                return 'The Denim Jacket is a popular choice at $79.00. We also have other outerwear options on our <a href="clothes.html">Clothes</a> page.';
+            }
+            if (lowerInput.includes('material') || lowerInput.includes('fabric')) {
+                return 'We use high-quality materials like 100% cotton, denim blends, and some recycled fabrics. You can learn more on our <a href="materials.html">Materials</a> page.';
+            }
+            if (lowerInput.includes('about') || lowerInput.includes('mission')) {
+                return 'Our mission is to create clean, durable, and stylish clothing for daily life. Every piece is built for fit, movement, and lasting quality. Read more on the <a href="about.html">About</a> page.';
+            }
+            if (lowerInput.includes('hello') || lowerInput.includes('hi') || lowerInput.includes('hey')) {
+                return 'Hello! How can I help you today? You can ask me about our products, shipping, or return policy.';
+            }
+
+            return "I'm sorry, I can't answer that. I can help with questions about shipping, returns, products, and contact information. Please try rephrasing your question or visit our <a href='contact.html'>Contact</a> page for more help.";
+        }
+
+        function sendAiMessage() {
+            const input = document.getElementById('aiChatInput');
+            const body = document.getElementById('aiChatBody');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const userDiv = document.createElement('div');
+            userDiv.className = 'ai-msg ai-msg-user';
+            userDiv.textContent = text;
+            body.appendChild(userDiv);
+            input.value = '';
+            body.scrollTop = body.scrollHeight;
+
+            setTimeout(() => {
+                const botResponseText = getAiResponse(text);
+                const botDiv = document.createElement('div');
+                botDiv.className = 'ai-msg ai-msg-bot';
+                botDiv.innerHTML = botResponseText;
+                body.appendChild(botDiv);
+                body.scrollTop = body.scrollHeight;
+            }, 800);
+        }
+        document.getElementById('aiChatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendAiMessage();
+        });
+    </script>
 </body>
 </html>
